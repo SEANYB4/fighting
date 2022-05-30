@@ -59,7 +59,8 @@ class Fighter extends Sprite {
         imageSrc, 
         scale = 1, 
         framesMax = 1,
-        offset = {x: 0, y: 0}
+        offset = {x: 0, y: 0},
+        sprites
         
     }) {
         
@@ -92,6 +93,13 @@ class Fighter extends Sprite {
         this.frameCurrent = 0;
         this.framesElapsed = 0;
         this.framesHold = 10;
+        this.sprites = sprites;
+
+        for (const sprite in this.sprites) {
+            sprites[sprite].image = new Image()
+            sprites[sprite].image.src = sprites[sprite].imageSrc
+        }
+        
     }
 
  
@@ -118,6 +126,30 @@ class Fighter extends Sprite {
         setTimeout( () => {
             this.isAttacking = false
         }, 100)
+    }
+
+
+    switchSprite(sprite) {
+        switch (sprite) {
+            case 'idle':
+                if(this.image!==this.sprites.idle.image){
+                    this.image = this.sprites.idle.image
+                    this.framesMax = this.sprites.idle.framesMax
+                }
+                break;
+            case 'run':
+                if(this.image!==this.sprites.run.image){
+                    this.image = this.sprites.run.image;
+                    this.framesMax = this.sprites.run.framesMax
+                }
+                break;
+            case 'jump':
+                if(this.image!==this.sprites.jump.image){
+                 this.image = this.sprites.jump.image;
+                 this.framesMax = this.sprites.jump.framesMax
+                }
+                break;
+        }
     }
 
 }
