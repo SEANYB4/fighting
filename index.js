@@ -40,7 +40,7 @@ velocity: {
         x: 0,
         y: 0
     },
-    imageSrc: './Idle.png',
+    imageSrc: './samuraiMack/Idle.png',
     framesMax: 8,
     scale: 2.5,
     offset: {
@@ -49,25 +49,33 @@ velocity: {
     },
     sprites: {
         idle: {
-            imageSrc: './Idle.png',
+            imageSrc: './samuraiMack/Idle.png',
             framesMax: 8
         },
         run: {
-            imageSrc: './Run.png',
+            imageSrc: './samuraiMack/Run.png',
             framesMax: 8
         },
         jump: {
-            imageSrc: './Jump.png',
+            imageSrc: './samuraiMack/Jump.png',
             framesMax: 2
         },
         fall: {
-            imageSrc: './Fall.png',
+            imageSrc: './samuraiMack/Fall.png',
             framesMax: 2
         },
         attack1: {
-            imageSrc: './Attack1.png',
+            imageSrc: './samuraiMack/Attack1.png',
             framesMax: 6
         }
+    },
+    attackBox: {
+        offset: {
+            x: 100,
+            y: 50
+        },
+        width: 160,
+        height: 50
     }
 })
 
@@ -86,8 +94,43 @@ offset: {
     x: -50,
     y: 0
 },
-imageSrc: './Idle.png',
-    framesMax: 8
+imageSrc: './kenji/Idle.png',
+    framesMax: 4,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 170
+    },
+    sprites: {
+        idle: {
+            imageSrc: './kenji/Idle.png',
+            framesMax: 4
+        },
+        run: {
+            imageSrc: './kenji/Run.png',
+            framesMax: 8
+        },
+        jump: {
+            imageSrc: './kenji/Jump.png',
+            framesMax: 2
+        },
+        fall: {
+            imageSrc: './kenji/Fall.png',
+            framesMax: 2
+        },
+        attack1: {
+            imageSrc: './kenji/Attack1.png',
+            framesMax: 4
+        }
+    },
+    attackBox: {
+        offset: {
+            x: 0,
+            y: 0
+        },
+        width: 100,
+        height: 50
+    }
 })
 
 
@@ -195,11 +238,23 @@ function animate() {
 
     // enemy movement
     if(keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+        enemy.switchSprite('run');
         enemy.velocity.x = -5;
     } else if (keys.ArrowRight.pressed){
+        enemy.switchSprite('run');
         enemy.velocity.x = 5
+    } else {
+        enemy.switchSprite('idle');
     }
 
+     // enemy jumping
+
+
+     if(enemy.velocity.y < 0){
+        enemy.switchSprite('jump');
+    } else if (enemy.velocity.y > 0) {
+        enemy.switchSprite('fall');
+    }
 
 
     // detect for collision
@@ -208,11 +263,17 @@ function animate() {
         rectangularCollision( {
             rectangle1: player,
             rectangle2: enemy
-        }) && player.isAttacking
+        }) && player.isAttacking && player.frameCurrent === 4
     ) {
         player.isAttacking = false;
         enemy.health -= 20;
         document.querySelector('#enemyHealth').style.width = enemy.health + '%';
+    }
+
+    // if player misses
+
+    if (player.isAttacking && player.frameCurrent === 4) {
+        player.isAttacking = false;
     }
 
 
