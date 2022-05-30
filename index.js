@@ -39,6 +39,13 @@ velocity: {
     offset: {
         x: 0,
         y: 0
+    },
+    imageSrc: './Idle.png',
+    framesMax: 8,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 157
     }
 })
 
@@ -56,7 +63,9 @@ color: 'blue',
 offset: {
     x: -50,
     y: 0
-}
+},
+imageSrc: './Idle.png',
+    framesMax: 8
 })
 
 
