@@ -59,6 +59,14 @@ velocity: {
         jump: {
             imageSrc: './Jump.png',
             framesMax: 2
+        },
+        fall: {
+            imageSrc: './Fall.png',
+            framesMax: 2
+        },
+        attack1: {
+            imageSrc: './Attack1.png',
+            framesMax: 6
         }
     }
 })
@@ -160,17 +168,25 @@ function animate() {
     enemy.velocity.x = 0;
 
     // player movement
-    player.switchSprite('idle');
+    
     if (keys.a.pressed && player.lastKey==='a') {
         player.velocity.x = -5;
         player.switchSprite('run');
     } else if (keys.d.pressed && player.lastKey==='d') {
         player.velocity.x = 5
         player.switchSprite('run');
+    } else {
+        player.switchSprite('idle');
     }
+
+
+    // jumping
+
 
     if(player.velocity.y < 0){
         player.switchSprite('jump');
+    } else if (player.velocity.y > 0) {
+        player.switchSprite('fall');
     }
 
     // if(player.position.y < 200){
